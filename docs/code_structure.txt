@@ -1,0 +1,30 @@
+BriefMintBot/
+├── cmd/
+│   └── bot/
+│       └── main.go       # Entry point. Inits all components and starts the bot
+│
+├── internal/             # Private application code (cannot be imported by external projects)
+│   ├── config/           # Configuration management: parses .env files and environment variables
+│   │   └── config.go
+│   │
+│   ├── bot/              # Presentation layer (Telegram routing)
+│   │   ├── bot.go        # tgbotapi initialization and long-polling setup
+│   │   └── handlers.go   # Handlers for commands (/start, /help) and text messages
+│   │
+│   ├── service/          # Core layer (Business logic)
+│   │   └── digest.go     # Orchestrator: aggregates data from providers and generates the digest
+│   │
+│   └── provider/         # External integrations (Data layer)
+│       ├── news/         # News API client
+│       ├── stocks/       # Financial API client (stock portfolio tickers)
+│       ├── tutor/        # Grammar rule and vocabulary generation logic for English learning
+│       └── llm/          # AI client (OpenAI / Anthropic / AWS Bedrock) for text summarization
+│
+├── docs/                 # Project documentation
+│   └── adr/              # Architectural Decision Records
+│
+├── .env                  # Local secrets (Telegram token, API keys) — IGNORED by Git
+├── .gitignore            # Git exclusion rules
+├── go.mod                # Go module definitions
+├── go.sum                # Go dependency checksums
+└── README.md             # Main repository documentation (in English)
