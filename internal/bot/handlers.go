@@ -71,6 +71,9 @@ func sendNewsMessage(ctx context.Context,
 		ChatID:    chatId,
 		Text:      newsMsg,
 		ParseMode: "HTML",
+		LinkPreviewOptions: &models.LinkPreviewOptions{
+					IsDisabled: bot.True(), 
+				},
 	})
 	if err != nil {
 		log.Printf("Failed to send message: %v", err)
