@@ -7,6 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/bot"
+	"github.com/DmitriiVasilev94/BriefMintBot/internal/bot/formatter"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/config"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/news"
 )
@@ -17,7 +18,10 @@ func main() {
 
 	cfg := config.LoadConfig()
 
-	client := bot.New(cfg.TelegramBotToken, &news.BBCProvider{URL: "https://news.google.com/rss/search?q=Global%20business&hl=en-US&gl=US&ceid=US%3Aen"})
+	client := bot.New(cfg.TelegramBotToken,
+		&news.RSSProvider{URL: "https://feeds.bbci.co.uk/news/world/rss.xml"},
+		&news.RSSProvider{URL: "https://techcrunch.com/feed/"},
+		&formatter.HtmlFormatter{})
 
 	log.Println("Bot started successfully")
 	client.Start(ctx)

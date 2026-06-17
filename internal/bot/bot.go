@@ -1,38 +1,42 @@
 package bot
 
 import (
-	 "log"
-	 "context"
-	 tgBot "github.com/go-telegram/bot"
+	"context"
+	"github.com/DmitriiVasilev94/BriefMintBot/internal/bot/formatter"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/news"
+	tgBot "github.com/go-telegram/bot"
+	"log"
 )
 
 type BriefMintBot struct {
-	Client *tgBot.Bot
-	newsProvider news.NewsProvider
-
+	Client            *tgBot.Bot
+	worldNewsProvider news.NewsProvider
+	techNewsProvider  news.NewsProvider
+	newsFormatter     formatter.Formatter
 }
 
-func New(tgToken string, newsProvider news.NewsProvider) *BriefMintBot {
+func New(tgToken string, worldNewsProvider news.NewsProvider, techNewsProvider news.NewsProvider, newsFormatter formatter.Formatter) *BriefMintBot {
 	bb := &BriefMintBot{
-        newsProvider: newsProvider,
-    }
-    
+		worldNewsProvider: worldNewsProvider,
+		techNewsProvider:  techNewsProvider,
+		newsFormatter:     newsFormatter,
+	}
+
 	opts := []tgBot.Option{
 		tgBot.WithDefaultHandler(bb.mainHandler),
 	}
-	
+
 	client, err := tgBot.New(tgToken, opts...)
 	if err != nil {
 		log.Println("error during bot initialization: " + err.Error())
 		panic(err)
 	}
 	return &BriefMintBot{
-		Client: client,
-		newsProvider: newsProvider,
+		Client:            client,
+		worldNewsProvider: worldNewsProvider,
 	}
 }
 
-func (b *BriefMintBot) Start(ctx context.Context){
+func (b *BriefMintBot) Start(ctx context.Context) {
 	b.Client.Start(ctx)
 }
