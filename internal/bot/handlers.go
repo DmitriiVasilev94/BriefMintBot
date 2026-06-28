@@ -30,8 +30,7 @@ func (bb *BriefMintBot) mainHandler(ctx context.Context, b *bot.Bot, update *mod
 
 	if update.Message.Text == "/brief" {
 		log.Printf("brief is requested by %v", update.Message.From.Username)
-		sendNewsMessage(ctx, b, "Here is latest 5 world news from BBC:\n", "🌍", bb.worldNewsProvider, bb.newsFormatter, update.Message.Chat.ID)
-		sendNewsMessage(ctx, b, "And take  latest 5 world news from TechCrunch.com:\n", "📡", bb.techNewsProvider, bb.newsFormatter, update.Message.Chat.ID)
+		sendNewsMessage(ctx, b, "Here is latest news:\n", "🌍", bb.newsProvider, bb.newsFormatter, update.Message.Chat.ID)
 
 		return
 

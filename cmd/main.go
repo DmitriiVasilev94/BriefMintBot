@@ -12,6 +12,8 @@ import (
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/news"
 )
 
+var newsSources = []string{"https://feeds.bbci.co.uk/news/world/rss.xml", "https://techcrunch.com/feed/"}
+
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
@@ -19,8 +21,7 @@ func main() {
 	cfg := config.LoadConfig()
 
 	client := bot.New(cfg.TelegramBotToken,
-		&news.RSSProvider{URL: "https://feeds.bbci.co.uk/news/world/rss.xml"},
-		&news.RSSProvider{URL: "https://techcrunch.com/feed/"},
+		&news.RSSProvider{URLs: newsSources},
 		&formatter.HtmlFormatter{})
 
 	log.Println("Bot started successfully")

@@ -10,15 +10,13 @@ import (
 
 type BriefMintBot struct {
 	Client            *tgBot.Bot
-	worldNewsProvider news.NewsProvider
-	techNewsProvider  news.NewsProvider
+	newsProvider news.NewsProvider
 	newsFormatter     formatter.Formatter
 }
 
-func New(tgToken string, worldNewsProvider news.NewsProvider, techNewsProvider news.NewsProvider, newsFormatter formatter.Formatter) *BriefMintBot {
+func New(tgToken string, newsProvider news.NewsProvider, newsFormatter formatter.Formatter) *BriefMintBot {
 	bb := &BriefMintBot{
-		worldNewsProvider: worldNewsProvider,
-		techNewsProvider:  techNewsProvider,
+		newsProvider: newsProvider,
 		newsFormatter:     newsFormatter,
 	}
 
@@ -33,7 +31,7 @@ func New(tgToken string, worldNewsProvider news.NewsProvider, techNewsProvider n
 	}
 	return &BriefMintBot{
 		Client:            client,
-		worldNewsProvider: worldNewsProvider,
+		newsProvider: newsProvider,
 	}
 }
 
