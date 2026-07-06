@@ -2,22 +2,26 @@ package bot
 
 import (
 	"context"
+	"log"
+
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/bot/formatter"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/news"
+	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/tutor"
 	tgBot "github.com/go-telegram/bot"
-	"log"
 )
 
 type BriefMintBot struct {
 	Client            *tgBot.Bot
 	newsProvider news.NewsProvider
+	tutor	tutor.EnglishTutor
 	newsFormatter     formatter.Formatter
 }
 
-func New(tgToken string, newsProvider news.NewsProvider, newsFormatter formatter.Formatter) *BriefMintBot {
+func New(tgToken string, newsProvider news.NewsProvider, tutor tutor.EnglishTutor, newsFormatter formatter.Formatter) *BriefMintBot {
 	bb := &BriefMintBot{
 		newsProvider: newsProvider,
-		newsFormatter:     newsFormatter,
+		tutor: tutor,
+		newsFormatter: newsFormatter,
 	}
 
 	opts := []tgBot.Option{

@@ -10,6 +10,7 @@ import (
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/bot/formatter"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/config"
 	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/news"
+	"github.com/DmitriiVasilev94/BriefMintBot/internal/provider/tutor"
 )
 
 var newsSources = []string{"https://feeds.bbci.co.uk/news/world/rss.xml", "https://techcrunch.com/feed/"}
@@ -22,6 +23,7 @@ func main() {
 
 	client := bot.New(cfg.TelegramBotToken,
 		&news.RSSProvider{URLs: newsSources},
+		tutor.NewLlmEnglishTutor(cfg.LLMStudioUrl),
 		&formatter.HtmlFormatter{})
 
 	log.Println("Bot started successfully")

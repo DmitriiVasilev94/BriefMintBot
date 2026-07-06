@@ -30,8 +30,27 @@ func (bb *BriefMintBot) mainHandler(ctx context.Context, b *bot.Bot, update *mod
 
 	if update.Message.Text == "/brief" {
 		log.Printf("brief is requested by %v", update.Message.From.Username)
-		sendNewsMessage(ctx, b, "Here is latest news:\n", "🌍", bb.newsProvider, bb.newsFormatter, update.Message.Chat.ID)
-
+		//sendNewsMessage(ctx, b, "Here is latest news:\n", "🌍", bb.newsProvider, bb.newsFormatter, update.Message.Chat.ID)
+		_, err := b.SendMessage(ctx, &bot.SendMessageParams{
+			ChatID: update.Message.Chat.ID,
+			Text:   "We are preparing new English Lesson for you. Stay tuned....",
+		})
+		if err != nil {
+			log.Printf("Failed to send message: %v", err)
+		}
+		lesson, err := bb.tutor.GetLesson(ctx);
+		if err != nil {
+			log.Printf("Failed to get English lesson: %v", err)
+			return
+		}
+		_, err = b.SendMessage(ctx, &bot.SendMessageParams{
+			ChatID: update.Message.Chat.ID,
+			ParseMode: "HTML",
+			Text:   lesson,
+		})
+		if err != nil {
+			log.Printf("Failed to send message: %v", err)
+		}
 		return
 
 	}
